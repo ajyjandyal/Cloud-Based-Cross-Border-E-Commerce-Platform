@@ -1,78 +1,77 @@
-// ========== GlobalStore: Main Script ==========
+// ================================
+// 🌍 CLOUD E-COMMERCE MAIN SCRIPT
+// ================================
 
-// 💱 Currency conversion (USD/EUR → INR)
+// --- Currency Conversion Logic ---
 async function convert(btn) {
   const product = btn.parentElement;
-  const usd = parseFloat(product.querySelector(".usd").getAttribute("data-usd"));
-  const currency = document.getElementById("currency").value || "USD";
+  const usd = product.querySelector(".usd").getAttribute("data-usd");
+  const currency = document.getElementById("currency").value;
 
   try {
+    // ✅ Reliable API for currency conversion (works on GitHub Pages)
     const res = await fetch(`https://api.exchangerate.host/latest?base=${currency}&symbols=INR`);
-    if (!res.ok) throw new Error("Network response failed");
     const data = await res.json();
 
-    // Rate + fallback
-    const rate = data?.rates?.INR || 83.25;
-    const date = data?.date || new Date().toISOString().split("T")[0];
-
+    // ✅ Extract rate safely, fallback if API fails
+    const rate = data.rates?.INR || 83.25;
     const price = (usd * rate).toFixed(2);
+    const date = data.date || new Date().toISOString().split("T")[0];
+
     product.querySelector(".inr").innerText = `Price (INR): ₹${price} (Updated ${date})`;
   } catch (err) {
-    console.error("Currency conversion error:", err);
-    product.querySelector(".inr").innerText = "⚠️ Error fetching rate (using fallback ₹)";
-    const fallback = (usd * 83.25).toFixed(2);
-    product.querySelector(".inr").innerText += ` ₹${fallback}`;
+    console.error("Currency API Error:", err);
+    product.querySelector(".inr").innerText = "⚠️ Unable to fetch rate. Please try again.";
   }
 }
 
-// 🛍️ BUY NOW simulation
+// --- BUY NOW Simulation ---
 function buyNow(productName) {
-  if (!window.userLoggedIn) {
-    alert("⚠️ Please login first to place your order.");
-    return;
-  }
-  alert(`✅ Order placed successfully for ${productName}!\nA confirmation email will be sent shortly.`);
+  alert(`✅ Order placed successfully for ${productName}! \n📧 A confirmation email will be sent shortly.`);
 }
 
-// 🌙 Dark mode toggle
+// --- Dark Mode Toggle ---
 const toggle = document.getElementById("darkToggle");
 if (toggle) {
   toggle.addEventListener("click", () => {
     document.body.classList.toggle("dark");
-    toggle.textContent = document.body.classList.contains("dark") ? "☀️ Light Mode" : "🌙 Dark Mode";
+    toggle.innerText = document.body.classList.contains("dark") ? "☀️ Light Mode" : "🌙 Dark Mode";
   });
 }
 
-// 🔐 Mock Login / Logout (Firebase simulation)
+// --- MOCK LOGIN / LOGOUT Simulation ---
 document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
 
   if (loginBtn && logoutBtn) {
-    loginBtn.addEventListener("click", () => {
+    loginBtn.onclick = () => {
       alert("✅ Logged in successfully (Firebase simulation)");
-      window.userLoggedIn = true;
       loginBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
-    });
+      sessionStorage.setItem("loggedIn", "true");
+    };
 
-    logoutBtn.addEventListener("click", () => {
+    logoutBtn.onclick = () => {
       alert("👋 Logged out successfully");
-      window.userLoggedIn = false;
       logoutBtn.style.display = "none";
       loginBtn.style.display = "inline-block";
-    });
+      sessionStorage.removeItem("loggedIn");
+    };
+
+    // --- Restore login state after page refresh ---
+    if (sessionStorage.getItem("loggedIn") === "true") {
+      loginBtn.style.display = "none";
+      logoutBtn.style.display = "inline-block";
+    }
   }
 });
 
-// ⚙️ Auto-convert prices on page load
-document.addEventListener("DOMContentLoaded", async () => {
-  const buttons = document.querySelectorAll(".product button:first-of-type");
-  for (const btn of buttons) {
-    try {
-      await convert(btn);
-    } catch (err) {
-      console.warn("Auto conversion failed for a product:", err);
-    }
-  }
+// --- Ensure all product images load properly ---
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("img").forEach(img => {
+    img.onerror = () => {
+      img.src = "https://via.placeholder.com/200x200?text=Image+Not+Found";
+    };
+  });
 });
