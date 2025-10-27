@@ -5,6 +5,9 @@
 // --- Currency Conversion Logic ---
 async function convert(btn) {
   const product = btn.parentElement;
+  const inrEl = product.querySelector(".inr");
+  inrEl.innerText = "Converting..."; // Added loading text
+
   const usd = product.querySelector(".usd").getAttribute("data-usd");
   const currency = document.getElementById("currency").value;
 
@@ -18,10 +21,14 @@ async function convert(btn) {
     const price = (usd * rate).toFixed(2);
     const date = data.date || new Date().toISOString().split("T")[0];
 
-    product.querySelector(".inr").innerText = `Price (INR): ₹${price} (Updated ${date})`;
+    // Using a more concise update
+    inrEl.innerText = `Price (INR): ₹${price}`; 
+    // If you want the date, uncomment this:
+    // inrEl.innerText = `Price (INR): ₹${price} (Updated ${date})`;
+
   } catch (err) {
     console.error("Currency API Error:", err);
-    product.querySelector(".inr").innerText = "⚠️ Unable to fetch rate. Please try again.";
+    inrEl.innerText = "⚠️ Unable to fetch rate. Please try again.";
   }
 }
 
@@ -39,20 +46,22 @@ if (toggle) {
   });
 }
 
-// --- MOCK LOGIN / LOGOUT Simulation ---
+// --- DOMContentLoaded: Runs once the HTML page is fully loaded ---
 document.addEventListener("DOMContentLoaded", () => {
+  
+  // --- MOCK LOGIN / LOGOUT Simulation ---
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
-  const adminBtn = document.getElementById("adminBtn"); // <-- ADD THIS LINE
+  const adminBtn = document.getElementById("adminBtn");
 
-  if (loginBtn && logoutBtn && adminBtn) { // <-- ADD adminBtn HERE
+  if (loginBtn && logoutBtn && adminBtn) { 
     
     // --- LOGIN ---
     loginBtn.onclick = () => {
       alert("✅ Logged in successfully (Firebase simulation)");
       loginBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
-      adminBtn.style.display = "inline-block"; // <-- ADD THIS LINE TO SHOW BUTTON
+      adminBtn.style.display = "inline-block";
       sessionStorage.setItem("loggedIn", "true");
     };
 
@@ -60,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.onclick = () => {
       alert("👋 Logged out successfully");
       logoutBtn.style.display = "none";
-      adminBtn.style.display = "none"; // <-- ADD THIS LINE TO HIDE BUTTON
+      adminBtn.style.display = "none"; 
       loginBtn.style.display = "inline-block";
       sessionStorage.removeItem("loggedIn");
     };
@@ -69,16 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sessionStorage.getItem("loggedIn") === "true") {
       loginBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
-      adminBtn.style.display = "inline-block"; // <-- ADD THIS LINE
+      adminBtn.style.display = "inline-block";
     }
   }
-  // ... rest of your code ...
-});
-// --- Ensure all product images load properly ---
-document.addEventListener("DOMContentLoaded", () => {
+
+  // --- Ensure all product images load properly (MOVED HERE) ---
   document.querySelectorAll("img").forEach(img => {
     img.onerror = () => {
       img.src = "https://via.placeholder.com/200x200?text=Image+Not+Found";
     };
   });
+
 });
