@@ -43,18 +43,24 @@ if (toggle) {
 document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
+  const adminBtn = document.getElementById("adminBtn"); // <-- ADD THIS LINE
 
-  if (loginBtn && logoutBtn) {
+  if (loginBtn && logoutBtn && adminBtn) { // <-- ADD adminBtn HERE
+    
+    // --- LOGIN ---
     loginBtn.onclick = () => {
       alert("✅ Logged in successfully (Firebase simulation)");
       loginBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
+      adminBtn.style.display = "inline-block"; // <-- ADD THIS LINE TO SHOW BUTTON
       sessionStorage.setItem("loggedIn", "true");
     };
 
+    // --- LOGOUT ---
     logoutBtn.onclick = () => {
       alert("👋 Logged out successfully");
       logoutBtn.style.display = "none";
+      adminBtn.style.display = "none"; // <-- ADD THIS LINE TO HIDE BUTTON
       loginBtn.style.display = "inline-block";
       sessionStorage.removeItem("loggedIn");
     };
@@ -63,10 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sessionStorage.getItem("loggedIn") === "true") {
       loginBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
+      adminBtn.style.display = "inline-block"; // <-- ADD THIS LINE
     }
   }
+  // ... rest of your code ...
 });
-
 // --- Ensure all product images load properly ---
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("img").forEach(img => {
