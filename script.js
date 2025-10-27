@@ -23,3 +23,27 @@ const toggle = document.getElementById("darkToggle");
 toggle.addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
+// BUY NOW button simulation
+function buyNow(productName) {
+  alert(`✅ Order placed successfully for ${productName}! \nA confirmation email will be sent shortly.`);
+}
+
+// MOCK LOGIN / LOGOUT Simulation
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (loginBtn && logoutBtn) {
+    loginBtn.onclick = () => {
+      alert("✅ Logged in successfully (Firebase simulation)");
+      loginBtn.style.display = "none";
+      logoutBtn.style.display = "inline-block";
+    };
+
+    logoutBtn.onclick = () => {
+      alert("👋 Logged out successfully");
+      logoutBtn.style.display = "none";
+      loginBtn.style.display = "inline-block";
+    };
+  }
+});
