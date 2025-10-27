@@ -6,7 +6,7 @@ async function convert(btn) {
   try {
     const res = await fetch(`https://api.exchangerate-api.com/v4/latest/${currency}`);
     const data = await res.json();
-    const rate = data.rates.INR;
+    const rate = data.rates?.INR || 83.25;
     const price = (usd * rate).toFixed(2);
     product.querySelector(".inr").innerText = `Price (INR): ₹${price}`;
   } catch (err) {
