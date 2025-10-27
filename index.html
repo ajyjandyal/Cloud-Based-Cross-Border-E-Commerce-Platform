@@ -7,47 +7,61 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <header>
     <h1>🌎 GlobalStore</h1>
     <p>Cloud-Based Cross-Border E-Commerce Platform</p>
+    <div id="controls">
+      <button id="darkToggle">🌙 Dark Mode</button>
+      <div id="auth-buttons">
+        <button id="loginBtn">Login</button>
+        <button id="logoutBtn" style="display:none;">Logout</button>
+      </div>
+    </div>
   </header>
-<div id="auth-buttons">
-  <button id="loginBtn">Login</button>
-  <button id="logoutBtn" style="display:none;">Logout</button>
-</div>
+
+  <div class="currency-selector">
+    <label for="currency">Base Currency: </label>
+    <select id="currency">
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="GBP">GBP</option>
+    </select>
+  </div>
 
   <section class="products">
+    
     <div class="product">
-      <img src="images/nike.png" alt="Nike Air Max" />
+      <img src="https://i.imgur.com/gTjKwLg.png" alt="Nike Air Max" />
       <h2>Nike Air Max 2025</h2>
-      <p>Price (USD): $120</p>
-      <p id="p1">Price (INR): ₹--</p>
-      <button onclick="convert(120, 'p1')">Convert to INR</button>
+      <p class="usd" data-usd="120">Price (USD): $120</p>
+      <p class="inr">Price (INR): ₹--</p>
+      <button onclick="convert(this)">Convert to INR</button>
       <button onclick="buyNow('Nike Air Max 2025')">Buy Now</button>
-
     </div>
 
     <div class="product">
-      <img src="images/essentials.png" alt="Essentials Hoodie" />
+      <img src="https://i.imgur.com/gKHY50A.png" alt="Essentials Hoodie" />
       <h2>Essentials Hoodie</h2>
-      <p>Price (USD): $55</p>
-      <p id="p2">Price (INR): ₹--</p>
-      <button onclick="convert(55, 'p2')">Convert to INR</button>
+      <p class="usd" data-usd="55">Price (USD): $55</p>
+      <p class="inr">Price (INR): ₹--</p>
+      <button onclick="convert(this)">Convert to INR</button>
       <button onclick="buyNow('Essentials Hoodie')">Buy Now</button>
     </div>
 
     <div class="product">
-      <img src="images/samsungcase.png" alt="Samsung Case" />
+      <img src="https://i.imgur.com/QyqH8qI.png" alt="Samsung Case" />
       <h2>Samsung Case</h2>
-      <p>Price (USD): $10</p>
-      <p id="p3">Price (INR): ₹--</p>
-      <button onclick="convert(10, 'p3')">Convert to INR</button>
+      <p class="usd" data-usd="10">Price (USD): $10</p>
+      <p class="inr">Price (INR): ₹--</p>
+      <button onclick="convert(this)">Convert to INR</button>
       <button onclick="buyNow('Samsung Case')">Buy Now</button>
     </div>
+
   </section>
 
   <footer>
-    <p>Developed by Ajay Jandyal & Priyanshu Rai | Hosted on GitHub Cloud</p>
+    <p>Developed by Ajay Jandyal | Hosted on GitHub Cloud</p>
   </footer>
 
   <script src="script.js"></script>
