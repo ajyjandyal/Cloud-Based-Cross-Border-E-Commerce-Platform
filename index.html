@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlobalStore - Cloud E-Commerce</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🌎 GlobalStore</h1>
+    <p>Cloud-Based Cross-Border E-Commerce Platform</p>
+  </header>
+
+  <section class="products">
+    <div class="product">
+      <img src="images/nike.png" alt="Nike Air Max" />
+      <h2>Nike Air Max 2025</h2>
+      <p>Price (USD): $120</p>
+      <p id="p1">Price (INR): ₹--</p>
+      <button onclick="convert(120, 'p1')">Convert to INR</button>
+    </div>
+
+    <div class="product">
+      <img src="images/essentials.png" alt="Essentials Hoodie" />
+      <h2>Essentials Hoodie</h2>
+      <p>Price (USD): $55</p>
+      <p id="p2">Price (INR): ₹--</p>
+      <button onclick="convert(55, 'p2')">Convert to INR</button>
+    </div>
+
+    <div class="product">
+      <img src="images/samsungcase.png" alt="Samsung Case" />
+      <h2>Samsung Case</h2>
+      <p>Price (USD): $10</p>
+      <p id="p3">Price (INR): ₹--</p>
+      <button onclick="convert(10, 'p3')">Convert to INR</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>Developed by Ajay Jandyal & Priyanshu Rai | Hosted on GitHub Cloud</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
