@@ -10,9 +10,10 @@
   <header class="site-header">
     <div class="brand">
       <a href="index.html">🌎 GlobalStore</a>
-      <span class="tag">Cross-Border E-Commerce (INR)</span>
+      <div class="tag">Cross-Border E-Commerce (INR)</div>
     </div>
     <div class="header-actions">
+      <input id="searchInput" class="search" type="search" placeholder="Search products or brands..." />
       <button id="darkToggle" class="btn small">🌙</button>
       <a href="cart.html" class="btn small">Cart (<span id="cart-count">0</span>)</a>
       <a id="acctLink" href="login.html" class="btn small">Account</a>
@@ -21,8 +22,8 @@
 
   <main class="container">
     <section class="hero">
-      <h1>Shop International Brands — Prices shown in INR</h1>
-      <p>Prototype demo: live currency conversion, add-to-cart, and simulated checkout.</p>
+      <h1>Shop Luxury & International Brands — Prices in INR</h1>
+      <p>Demo prototype: live currency conversion, add-to-cart, login & simulated checkout.</p>
     </section>
 
     <section class="controls">
@@ -36,7 +37,7 @@
     </section>
 
     <section id="products" class="products-grid">
-      <!-- JS injects product cards -->
+      <!-- products injected by JS -->
     </section>
   </main>
 
@@ -44,6 +45,7 @@
     <p>Developed by Ajay & Priyanshu • Hosted on GitHub Pages • <a href="admin.html">Admin</a></p>
   </footer>
 
+  <script src="common.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
