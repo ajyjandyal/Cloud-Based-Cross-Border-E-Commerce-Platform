@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Login - GlobalStore</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <header class="site-header">
@@ -13,19 +13,33 @@
 
   <main class="container auth-page">
     <h1>Login</h1>
-    <form id="loginForm" onsubmit="event.preventDefault(); doLogin();">
+    <form id="loginForm">
       <label>Email</label>
       <input type="email" id="loginEmail" required />
       <label>Password</label>
       <input type="password" id="loginPass" required />
-      <div style="margin-top:10px;">
-        <button class="btn primary" type="submit">Login</button>
+      <div style="margin-top:12px;">
+        <button type="submit" class="btn primary">Login</button>
         <a href="signup.html" class="btn">Signup</a>
       </div>
       <p id="loginMsg" class="muted"></p>
     </form>
   </main>
 
-  <script src="app.js"></script>
+  <script src="common.js"></script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('loginPass').value;
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      if(users[email] && users[email].pass === pass){
+        sessionStorage.setItem('user', email);
+        window.location = 'index.html';
+      } else {
+        document.getElementById('loginMsg').innerText = 'Invalid credentials';
+      }
+    });
+  </script>
 </body>
 </html>
