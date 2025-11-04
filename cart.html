@@ -1,46 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="utf-8" />
- <meta name="viewport" content="width=device-width,initial-scale=1" />
- <title>Cart - GlobalStore</title>
- <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GlobalStore - Cart</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
- <header class="site-header">
-  <div class="brand"><a href="index.html">🌎 GlobalStore</a></div>
-  <div class="header-actions">
-   <a id="acctLink" href="login.html" class="btn small">Account</a>
-  </div>
- </header>
+  <header class="site-header">
+    <div class="brand">
+      <a href="index.html">🌎 GlobalStore</a>
+      <div class="tag">Cross-Border E-Commerce (INR)</div>
+    </div>
+    <div class="header-actions">
+      <button id="darkToggle" class="btn small">🌙</button>
+      <a href="cart.html" class="btn small">Cart (<span id="cart-count">0</span>)</a>
+      <a id="acctLink" href="login.html" class="btn small">Account</a>
+    </div>
+  </header>
 
- <main class="container">
-  <h1>Your Cart</h1>
-  <section id="cart-contents">
-   <!-- JS fills cart items -->
-  </section>
+  <main class="container">
+    <h1>Your Shopping Cart</h1>
 
-  <section id="checkout" class="checkout">
-   <h3>Checkout</h3>
-   <p>Total: <strong id="cart-total">₹0</strong></p>
-   <label>Payment Mode:
-    <select id="payment-mode">
-     <option value="razorpay">Razorpay (Simulated)</option>
-     <option value="cod">Cash On Delivery</option>
-    </select>
-   </label>
-   <div style="margin-top:12px;">
-    <button class="btn primary" onclick="checkout()">Proceed to Pay</button>
-   </div>
-  </section>
- </main>
+    <div id="cart-page" class="cart-layout">
+      <div class="cart-items" id="cart-items-container">
+        <p id="empty-cart-msg">Your cart is empty.</p>
+      </div>
 
- <footer class="site-footer">
-  <p>GlobalStore demo checkout (simulated)</p>
- </footer>
+      <aside class="cart-summary" id="cart-summary-container" style="display:none;">
+        <h2>Order Summary</h2>
+        <div class="summary-row">
+          <span>Subtotal (USD)</span>
+          <span id="subtotal-usd">$0.00</span>
+        </div>
+         <div class="summary-row">
+          <span>Subtotal (INR)</span>
+          <span id="subtotal-inr">₹0.00</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total (USD)</span>
+          <span id="total-usd">$0.00</span>
+        </div>
 
- <script src="app.js"></script>
+        <form id="checkout-form" class="checkout-form">
+          <h3>Shipping & Payment Details</h3>
+
+          <div class="form-group">
+            <label for="email">Email for Confirmation</label>
+            <input type="email" id="email" placeholder="your@email.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Ajay Jandyal" required>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Street Address</label>
+            <input type="text" id="address" placeholder="123 MIT WPU Road" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city">City</label>
+              <input type="text" id="city" placeholder="Pune" required>
+            </div>
+            <div class="form-group">
+              <label for="zip">PIN Code</label>
+              <input type="text" id="zip" placeholder="411038" required>
+            </div>
+          </div>
+
+          <hr style="border:0; border-top: 1px solid var(--border); margin: 0.5rem 0 1rem 0;">
+
+          <div class="form-group">
+            <label for="payment-mode">Payment Mode</label>
+            <select id="payment-mode">
+              <option value="razorpay">Razorpay (Simulated)</option>
+              <option value="cod">Cash On Delivery</option>
+            </select>
+          </div>
+
+          <!-- optional card fields for simulation -->
+          <div class="form-group">
+            <label for="card-number">Credit Card Number</label>
+            <input type="text" id="card-number" placeholder="4000 1234 5678 9010">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="card-expiry">Expiry (MM/YY)</label>
+              <input type="text" id="card-expiry" placeholder="12/28">
+            </div>
+            <div class="form-group">
+              <label for="card-cvc">CVC</label>
+              <input type="text" id="card-cvc" placeholder="123">
+            </div>
+          </div>
+
+          <button type="submit" id="checkout-btn" class="btn primary full" style="margin-top: 1.0rem;">
+            Place Order (Simulated)
+          </button>
+        </form>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Developed by Ajay & Priyanshu • Hosted on GitHub Pages • <a href="admin.html">Admin</a></p>
+  </footer>
+
+  <script src="common.js"></script>
+  <script src="cart.js"></script>
 </body>
 </html>
-
-
