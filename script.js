@@ -19,29 +19,35 @@ async function loadProducts() {
 }
 
 // ====== Render Products on Home ======
-async function renderProducts() {
-  await loadProducts();
-  const container = document.getElementById("products");
-  if (!container) return;
+async function renderProductPage() {
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id) return;
+  const res = await fetch("data/products.json");
+  const data = await res.json();
+  const p = data.find(x => x.id === id);
+  const container = document.getElementById("product-detail");
+  if (!p) {
+    container.innerHTML = "<p>Product not found.</p>";
+    return;
+  }
 
-  container.innerHTML = "";
-  PRODUCTS.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400x400?text=${encodeURIComponent(p.brand)}'">
-      <h3>${p.name}</h3>
-      <p class="brand">${p.brand}</p>
+  container.innerHTML = `
+    <img src="${p.image}" alt="${p.name}">
+    <div class="product-info">
+      <h2>${p.name}</h2>
+      <p class="brand">Brand: ${p.brand}</p>
       <p>USD: $${p.priceUSD}</p>
-      <p class="inr">INR: ₹--</p>
+      <p class="inr">Price (INR): ₹${(p.priceUSD * 83.25).toFixed(2)}</p>
+      <h3>Description</h3>
+      <p>${p.desc}</p>
       <div class="product-actions">
-        <a class="btn" href="product.html?id=${p.id}">View</a>
-        <button class="btn" onclick="convertCurrency(this, ${p.priceUSD})">Convert</button>
         <button class="btn primary" onclick="addToCart('${p.id}')">Add to Cart</button>
-      </div>`;
-    container.appendChild(card);
-  });
+        <button class="btn" onclick="startPayment('${p.name}', ${p.priceUSD})">Buy Now</button>
+      </div>
+    </div>
+  `;
 }
+
 
 // ====== Render Single Product Page ======
 async function renderProductPage() {
