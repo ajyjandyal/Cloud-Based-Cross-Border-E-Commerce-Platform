@@ -1,52 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GlobalStore - Home</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GlobalStore - Home</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">
-      <a href="index.html">🌎 GlobalStore</a>
-      <div class="tag">Cross-Border E-Commerce (INR)</div>
-    </div>
-    <div class="header-actions">
-      <input id="searchInput" class="search" type="search" placeholder="Search products or brands..." />
-      <button id="darkToggle" class="btn small">🌙</button>
-      <a href="cart.html" class="btn small">Cart (<span id="cart-count">0</span>)</a>
-      <a id="acctLink" href="login.html" class="btn small">Account</a>
-    </div>
-  </header>
+  <header class="site-header">
+    <div class="brand">
+      <a href="index.html">🌎 GlobalStore</a>
+      <div class="tag">Cross-Border E-Commerce (INR)</div>
+    </div>
+    <div class="header-actions">
+      <input id="searchInput" class="search" type="search" placeholder="Search products or brands..." />
+      <button id="darkToggle" class="btn small">🌙</button>
+      <a href="cart.html" class="btn small">Cart (<span id="cart-count">0</span>)</a>
+      <a id="acctLink" href="login.html" class="btn small">Account</a>
+    </div>
+  </header>
 
-  <main class="container">
-    <section class="hero">
-      <h1>Shop Luxury & International Brands — Prices in INR</h1>
-      <p> live currency conversion, add-to-cart, login & checkout.</p>
-    </section>
+  <main class="container">
+    <section class="hero">
+      <h1>Shop Luxury & International Brands — Prices in INR</h1>
+      <p> live currency conversion, add-to-cart, login & checkout.</p>
+    </section>
 
-    <section class="controls">
-      <label>Currency base:
-        <select id="currency" title="Base currency for conversion">
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-        </select>
-      </label>
-    </section>
+    <section class="controls">
+      <label>Currency base:
+        <select id="currency" title="Base currency for conversion">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+        </select>
+      </label>
+    </section>
 
-    <section id="products" class="products-grid">
-      <!-- products injected by JS -->
-    </section>
-  </main>
+    <section id="products" class="products-grid">
+          </section>
+  </main>
 
-  <footer class="site-footer">
-    <p>Developed by Ajay & Priyanshu • Hosted on GitHub Pages • <a href="admin.html">Admin</a></p>
-  </footer>
-  
-
-  <script src="common.js"></script>
-  <script src="app.js"></script>
+  <footer class="site-footer">
+    <p>Developed by Ajay & Priyanshu • Hosted on GitHub Pages • <a href="admin.html">Admin</a></p>
+  </footer>
+  
+    <script src="common.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
