@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GlobalStore - Secure Payment</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <a href="index.html">🌎 GlobalStore</a>
+      <span class="tag">Secure Checkout</span>
+    </div>
+    <div class="header-actions">
+      <button id="darkToggle" class="btn small">🌙</button>
+      <a href="cart.html" class="btn small">Cancel Payment</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="form-card" style="max-width: 500px;">
+      
+      <div class="payment-summary">
+        <h3>Order Total (INR)</h3>
+        <h1 id="payment-total">₹--.--</h1>
+        <p>You are paying GlobalStore (Demo)</p>
+      </div>
+
+      <form id="fake-payment-form">
+        <div class="form-group">
+          <label for="card-number">Card Number</label>
+          <input type="text" id="card-number" value="4242 4242 4242 4242" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="card-expiry">Expiry (MM/YY)</label>
+            <input type="text" id="card-expiry" value="12/28" required>
+          </div>
+          <div class="form-group">
+            <label for="card-cvc">CVC</label>
+            <input type="text" id="card-cvc" value="123" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="name-on-card">Name on Card</label>
+          <input type="text" id="name-on-card" value="Ajay Jandyal" required>
+        </div>
+        
+        <button type="submit" id="pay-btn" class="btn full" style="margin-top: 1rem;">
+          Pay (Simulated)
+        </button>
+      </form>
+
+      <p class="form-note">
+        This is a demo payment page. No real transaction will occur.
+        You can use the test card details provided.
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Developed by Ajay & Priyanshu • Hosted on GitHub Pages</p>
+  </footer>
+
+  <script src="common.js"></script>
+  <script src="payment.js"></script>
+</body>
+</html>
