@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Signup - GlobalStore</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <header class="site-header">
@@ -13,21 +13,36 @@
 
   <main class="container auth-page">
     <h1>Signup</h1>
-    <form id="signupForm" onsubmit="event.preventDefault(); doSignup();">
+    <form id="signupForm">
       <label>Full Name</label>
       <input type="text" id="signupName" required />
       <label>Email</label>
       <input type="email" id="signupEmail" required />
       <label>Password</label>
       <input type="password" id="signupPass" required />
-      <div style="margin-top:10px;">
-        <button class="btn primary" type="submit">Create Account</button>
+      <div style="margin-top:12px;">
+        <button type="submit" class="btn primary">Create Account</button>
         <a href="login.html" class="btn">Login</a>
       </div>
       <p id="signupMsg" class="muted"></p>
     </form>
   </main>
 
-  <script src="app.js"></script>
+  <script src="common.js"></script>
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('signupPass').value;
+      if(!name||!email||!pass){ document.getElementById('signupMsg').innerText='Fill all fields'; return; }
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      if(users[email]){ document.getElementById('signupMsg').innerText='Account exists'; return; }
+      users[email] = { name, email, pass };
+      localStorage.setItem('users', JSON.stringify(users));
+      sessionStorage.setItem('user', email);
+      window.location = 'index.html';
+    });
+  </script>
 </body>
 </html>
