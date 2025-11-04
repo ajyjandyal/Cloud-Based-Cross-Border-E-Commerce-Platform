@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Adidas Runner - GlobalStore</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><a href="index.html">🌎 GlobalStore</a></div>
+    <div class="header-actions">
+      <a href="cart.html" class="btn small">Cart (<span id="cart-count">0</span>)</a>
+      <a id="acctLink" href="login.html" class="btn small">Account</a>
+    </div>
+  </header>
+
+  <main class="container product-page">
+    <div class="product-detail">
+      <img src="images/adidas.png" alt="Adidas Runner"
+           onerror="this.src='https://via.placeholder.com/400x400?text=Adidas+Runner'" />
+      <div class="product-info">
+        <h2>Adidas Runner</h2>
+        <p class="brand">Brand: Adidas Originals</p>
+        <p>Price (USD): <span class="usd" data-usd="90">$90</span></p>
+        <p class="inr">Price (INR): ₹--</p>
+
+        <div class="product-actions">
+          <button class="btn" onclick="convertSingle(this)">Convert to INR</button>
+          <button class="btn primary" onclick="addToCart({id:'p4',name:'Adidas Runner',price:90,image:'images/adidas.png'})">Add To Cart</button>
+          <button class="btn" onclick="buyNow('Adidas Runner')">Buy Now</button>
+        </div>
+
+        <h3>Description</h3>
+        <p>
+          Lightweight Adidas running shoes crafted for comfort and durability.
+          Breathable mesh upper and cushioned midsole ensure support for both
+          training and daily wear. Global edition — demo listing.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>GlobalStore demo — not for real sale • Hosted on GitHub Pages</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
