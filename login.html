@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - GlobalStore</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><a href="index.html">🌎 GlobalStore</a></div>
+  </header>
+
+  <main class="container auth-page">
+    <h1>Login</h1>
+    <form id="loginForm" onsubmit="event.preventDefault(); doLogin();">
+      <label>Email</label>
+      <input type="email" id="loginEmail" required />
+      <label>Password</label>
+      <input type="password" id="loginPass" required />
+      <div style="margin-top:10px;">
+        <button class="btn primary" type="submit">Login</button>
+        <a href="signup.html" class="btn">Signup</a>
+      </div>
+      <p id="loginMsg" class="muted"></p>
+    </form>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
