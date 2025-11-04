@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Panel - GlobalStore</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin - GlobalStore</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>🛠 Admin Panel</h1>
-  <table border="1" style="margin:auto;border-collapse:collapse;">
-    <tr><th>ID</th><th>Product Name</th><th>USD Price</th><th>Status</th></tr>
-    <tr><td>1</td><td>Nike Air Max 2025</td><td>$120</td><td>Active</td></tr>
-    <tr><td>2</td><td>Essentials Hoodie</td><td>$55</td><td>Active</td></tr>
-    <tr><td>3</td><td>Samsung Case</td><td>$10</td><td>Active</td></tr>
-  </table>
-  <p style="margin-top:20px;">Connected to Cloud Database (Simulated)</p>
+  <header class="site-header">
+    <div class="brand"><a href="index.html">🌎 GlobalStore</a></div>
+  </header>
+
+  <main class="container">
+    <h1>Admin Panel (Demo)</h1>
+    <p>This is a simulated admin area for demo purposes. No auth required.</p>
+    <div id="admin-area"></div>
+  </main>
+
+  <script src="common.js"></script>
+  <script>
+    async function loadAdmin() {
+      try {
+        const res = await fetch('data/products.json');
+        const products = await res.json();
+        const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+        document.getElementById('admin-area').innerHTML = '<h3>Inventory (sample)</h3><pre>'+JSON.stringify(products.slice(0,10),null,2)+'</pre><h3>Cart (simulated)</h3><pre>'+JSON.stringify(cart,null,2)+'</pre>';
+      } catch(e){ document.getElementById('admin-area').innerText = 'Error loading admin data'; }
+    }
+    loadAdmin();
+  </script>
 </body>
 </html>
