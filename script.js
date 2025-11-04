@@ -1,92 +1,172 @@
 // ================================
 // 🌍 CLOUD E-COMMERCE MAIN SCRIPT
+// (Unified Version)
 // ================================
 
-// --- Currency Conversion Logic ---
-async function convert(btn) {
-  const product = btn.parentElement;
-  const inrEl = product.querySelector(".inr");
-  inrEl.innerText = "Converting..."; // Added loading text
+// ====== Global Variables ======
+let PRODUCTS = [];
+let exchangeRate = 83.25;
 
-  const usd = product.querySelector(".usd").getAttribute("data-usd");
-  const currency = document.getElementById("currency").value;
-
+// ====== Utility: Load Products JSON ======
+async function loadProducts() {
   try {
-    // ✅ Reliable API for currency conversion (works on GitHub Pages)
-    const res = await fetch(`https://api.exchangerate.host/latest?base=${currency}&symbols=INR`);
-    const data = await res.json();
-
-    // ✅ Extract rate safely, fallback if API fails
-    const rate = data.rates?.INR || 83.25;
-    const price = (usd * rate).toFixed(2);
-    const date = data.date || new Date().toISOString().split("T")[0];
-
-    // Using a more concise update
-    inrEl.innerText = `Price (INR): ₹${price}`; 
-    // If you want the date, uncomment this:
-    // inrEl.innerText = `Price (INR): ₹${price} (Updated ${date})`;
-
+    const res = await fetch("data/products.json");
+    PRODUCTS = await res.json();
   } catch (err) {
-    console.error("Currency API Error:", err);
-    inrEl.innerText = "⚠️ Unable to fetch rate. Please try again.";
+    console.error("Failed to load products.json", err);
+    PRODUCTS = [];
   }
 }
 
-// --- BUY NOW Simulation ---
-function buyNow(productName) {
-  alert(`✅ Order placed successfully for ${productName}! \n📧 A confirmation email will be sent shortly.`);
-}
+// ====== Render Products on Home ======
+async function renderProducts() {
+  await loadProducts();
+  const container = document.getElementById("products");
+  if (!container) return;
 
-// --- Dark Mode Toggle ---
-const toggle = document.getElementById("darkToggle");
-if (toggle) {
-  toggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
-    toggle.innerText = document.body.classList.contains("dark") ? "☀️ Light Mode" : "🌙 Dark Mode";
+  container.innerHTML = "";
+  PRODUCTS.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400x400?text=${encodeURIComponent(p.brand)}'">
+      <h3>${p.name}</h3>
+      <p class="brand">${p.brand}</p>
+      <p>USD: $${p.priceUSD}</p>
+      <p class="inr">INR: ₹--</p>
+      <div class="product-actions">
+        <a class="btn" href="product.html?id=${p.id}">View</a>
+        <button class="btn" onclick="convertCurrency(this, ${p.priceUSD})">Convert</button>
+        <button class="btn primary" onclick="addToCart('${p.id}')">Add to Cart</button>
+      </div>`;
+    container.appendChild(card);
   });
 }
 
-// --- DOMContentLoaded: Runs once the HTML page is fully loaded ---
-document.addEventListener("DOMContentLoaded", () => {
-  
-  // --- MOCK LOGIN / LOGOUT Simulation ---
+// ====== Render Single Product Page ======
+async function renderProductPage() {
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id) return;
+  if (PRODUCTS.length === 0) await loadProducts();
+  const p = PRODUCTS.find(x => x.id === id);
+  const container = document.getElementById("product-detail");
+  if (!p || !container) return;
+  container.innerHTML = `
+    <img src="${p.image}" alt="${p.name}">
+    <div class="product-info">
+      <h2>${p.name}</h2>
+      <p class="brand">${p.brand}</p>
+      <p>Price (USD): <span class="usd" data-usd="${p.priceUSD}">$${p.priceUSD}</span></p>
+      <p class="inr">Price (INR): ₹--</p>
+      <div class="product-actions">
+        <button class="btn" onclick="convertCurrency(this, ${p.priceUSD})">Convert</button>
+        <button class="btn primary" onclick="addToCart('${p.id}')">Add To Cart</button>
+        <button class="btn" onclick="buyNow('${p.name}')">Buy Now</button>
+      </div>
+      <h3>Description</h3>
+      <p>${p.desc}</p>
+    </div>`;
+}
+
+// ====== Currency Conversion ======
+async function convertCurrency(btn, usd) {
+  const product = btn.closest(".card, .product-detail");
+  const inrEl = product.querySelector(".inr");
+  inrEl.innerText = "Converting...";
+  const currency = document.getElementById("currency")?.value || "USD";
+
+  try {
+    const res = await fetch(`https://api.exchangerate.host/latest?base=${currency}&symbols=INR`);
+    const data = await res.json();
+    const rate = data.rates?.INR || 83.25;
+    const price = (usd * rate).toFixed(2);
+    inrEl.innerText = `Price (INR): ₹${price}`;
+  } catch (err) {
+    inrEl.innerText = "⚠️ Conversion Failed";
+  }
+}
+
+// ====== Cart Functions ======
+function addToCart(id) {
+  const product = PRODUCTS.find(p => p.id === id);
+  if (!product) return;
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const existing = cart.find(i => i.id === id);
+  if (existing) existing.qty += 1;
+  else cart.push({ ...product, qty: 1, price: product.priceUSD });
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+  alert(`${product.name} added to cart`);
+}
+
+function updateCartCount() {
+  const count = (JSON.parse(localStorage.getItem("cart")) || []).reduce((a, i) => a + i.qty, 0);
+  const el = document.getElementById("cart-count");
+  if (el) el.innerText = count;
+}
+
+// ====== Buy Now Simulation ======
+function buyNow(productName) {
+  alert(`✅ Order placed successfully for ${productName}! \n📧 Confirmation email sent (simulation).`);
+}
+
+// ====== Login / Logout Simulation ======
+function setupAuth() {
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
   const adminBtn = document.getElementById("adminBtn");
 
-  if (loginBtn && logoutBtn && adminBtn) { 
-    
-    // --- LOGIN ---
-    loginBtn.onclick = () => {
-      alert("✅ Logged in successfully (Firebase simulation)");
-      loginBtn.style.display = "none";
-      logoutBtn.style.display = "inline-block";
-      adminBtn.style.display = "inline-block";
-      sessionStorage.setItem("loggedIn", "true");
-    };
+  if (!loginBtn || !logoutBtn) return;
 
-    // --- LOGOUT ---
-    logoutBtn.onclick = () => {
-      alert("👋 Logged out successfully");
-      logoutBtn.style.display = "none";
-      adminBtn.style.display = "none"; 
-      loginBtn.style.display = "inline-block";
-      sessionStorage.removeItem("loggedIn");
-    };
+  loginBtn.onclick = () => {
+    alert("✅ Logged in (simulation)");
+    sessionStorage.setItem("loggedIn", "true");
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    if (adminBtn) adminBtn.style.display = "inline-block";
+  };
 
-    // --- Restore login state after page refresh ---
-    if (sessionStorage.getItem("loggedIn") === "true") {
-      loginBtn.style.display = "none";
-      logoutBtn.style.display = "inline-block";
-      adminBtn.style.display = "inline-block";
-    }
+  logoutBtn.onclick = () => {
+    alert("👋 Logged out");
+    sessionStorage.removeItem("loggedIn");
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    if (adminBtn) adminBtn.style.display = "none";
+  };
+
+  if (sessionStorage.getItem("loggedIn") === "true") {
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    if (adminBtn) adminBtn.style.display = "inline-block";
   }
+}
 
-  // --- Ensure all product images load properly (MOVED HERE) ---
+// ====== Dark Mode ======
+function setupDarkMode() {
+  const toggle = document.getElementById("darkToggle");
+  if (!toggle) return;
+  toggle.onclick = () => {
+    document.body.classList.toggle("dark");
+    toggle.innerText = document.body.classList.contains("dark") ? "☀️ Light" : "🌙 Dark";
+  };
+}
+
+// ====== Image Fallbacks ======
+function setupImageFallbacks() {
   document.querySelectorAll("img").forEach(img => {
     img.onerror = () => {
-      img.src = "https://via.placeholder.com/200x200?text=Image+Not+Found";
+      img.src = "https://via.placeholder.com/400x400?text=Image+Not+Found";
     };
   });
+}
 
+// ====== Initialization ======
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadProducts();
+  renderProducts();
+  renderProductPage();
+  setupAuth();
+  setupDarkMode();
+  setupImageFallbacks();
+  updateCartCount();
 });
