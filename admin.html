@@ -1,33 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Admin - GlobalStore</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin - GlobalStore</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand"><a href="index.html">🌎 GlobalStore</a></div>
-  </header>
+  <header class="site-header">
+    <div class="brand"><a href="index.html">🌎 GlobalStore</a></div>
+    <div class="header-actions">
+      <button id="darkToggle" class="btn small">🌙</button>
+      <a href="cart.html" class="btn small">Cart (<span id="cart-count">0</span>)</a>
+      <a id="acctLink" href="login.html" class="btn small">Account</a>
+    </div>
+  </header>
 
-  <main class="container">
-    <h1>Admin Panel (Demo)</h1>
-    <p>. No auth required.</p>
-    <div id="admin-area"></div>
-  </main>
+  <main class="container">
+    <h1>Admin Panel (Demo)</h1>
+    <p>This panel shows live data from the `data/products.json` file and the current `localStorage` cart.</p>
+    <div id="admin-area"></div>
+  </main>
 
-  <script src="common.js"></script>
-  <script>
-    async function loadAdmin() {
-      try {
-        const res = await fetch('data/products.json');
-        const products = await res.json();
-        const cart = JSON.parse(localStorage.getItem('cart')||'[]');
-        document.getElementById('admin-area').innerHTML = '<h3>Inventory (sample)</h3><pre>'+JSON.stringify(products.slice(0,10),null,2)+'</pre><h3>Cart (simulated)</h3><pre>'+JSON.stringify(cart,null,2)+'</pre>';
-      } catch(e){ document.getElementById('admin-area').innerText = 'Error loading admin data'; }
-    }
-    loadAdmin();
-  </script>
+  <footer class="site-footer">
+    <p>Developed by Ajay & Priyanshu • Hosted on GitHub Pages</p>
+  </footer>
+
+  <script src="common.js"></script>
+  <script>
+    async function loadAdmin() {
+      const adminArea = document.getElementById('admin-area');
+      adminArea.innerHTML = '<p>Loading admin data...</p>';
+      try {
+        const res = await fetch('data/products.json');
+        if (!res.ok) throw new Error(`Failed to fetch products: ${res.statusText}`);
+        const products = await res.json();
+        const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+        
+        adminArea.innerHTML = `
+          <h3>Inventory (from data/products.json)</h3>
+          <pre>${JSON.stringify(products.slice(0, 10), null, 2)}</pre>
+          <h3>Current Cart (from localStorage)</h3>
+          <pre>${JSON.stringify(cart, null, 2)}</pre>
+        `;
+      } catch(e){ 
+        console.error(e);
+        adminArea.innerText = 'Error loading admin data. Is "data/products.json" in your repository?'; 
+      }
+    }
+    loadAdmin();
+  </script>
 </body>
 </html>
