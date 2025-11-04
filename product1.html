@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nike Air Max 2025 - GlobalStore</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand"><a href="index.html">🌎 GlobalStore</a></div>
+    <div class="header-actions">
+      <a href="cart.html" class="btn small">Cart (<span id="cart-count">0</span>)</a>
+      <a id="acctLink" href="login.html" class="btn small">Account</a>
+    </div>
+  </header>
+
+  <main class="container product-page">
+    <div class="product-detail">
+      <img src="images/nike.png" alt="Nike Air Max" onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'" />
+      <div class="product-info">
+        <h2>Nike Air Max 2025</h2>
+        <p class="brand">Brand: Nike</p>
+        <p>Price (USD): <span class="usd" data-usd="120">$120</span></p>
+        <p class="inr">Price (INR): ₹--</p>
+        <div class="product-actions">
+          <button class="btn" onclick="convertSingle(this)">Convert to INR</button>
+          <button class="btn primary" onclick="addToCart({id:'p1',name:'Nike Air Max 2025',price:120, image:'images/nike.png'})">Add To Cart</button>
+          <button class="btn" onclick="buyNow('Nike Air Max 2025')">Buy Now</button>
+        </div>
+        <h3>Description</h3>
+        <p>High-performance running shoe with modern cushioning and breathable mesh. Original international product listing — demo only.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>GlobalStore demo — no real purchases. Hosted on GitHub Pages.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
