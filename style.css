@@ -233,7 +233,11 @@ body {
   --border: #334155;
   --shadow: 0 8px 24px rgba(0,0,0,0.5);
 }
-.dark .btn:hover { background: var(--accent); color: #fff; }
+body.dark {
+  background: var(--bg);
+  color: var(--text);
+}
+
 
 /* ---------- Responsiveness ---------- */
 @media (max-width: 768px) {
