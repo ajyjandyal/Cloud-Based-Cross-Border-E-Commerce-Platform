@@ -3,30 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Product - GlobalStore</title>
+  <title>Product Details - GlobalStore</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="site-header">
-    <div class="brand"><a href="index.html">🌎 GlobalStore</a></div>
+    <div class="brand">
+      <a href="index.html">🌎 GlobalStore</a>
+      <span class="tag">Cross-Border E-Commerce (INR)</span>
+    </div>
     <div class="header-actions">
+      <button id="darkToggle" class="btn small">🌙</button>
       <a href="cart.html" class="btn small">Cart (<span id="cart-count">0</span>)</a>
       <a id="acctLink" href="login.html" class="btn small">Account</a>
     </div>
   </header>
 
   <main class="container product-page">
-    <div class="product-detail" id="product-detail">
-      <!-- injected by JS -->
+    <div id="product-detail" class="product-detail">
       <p>Loading product...</p>
     </div>
   </main>
 
   <footer class="site-footer">
-    <p>Hosted on GitHub Pages</p>
+    <p>Developed by Ajay & Priyanshu • Hosted on GitHub Pages</p>
   </footer>
 
-  <script src="common.js"></script>
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
