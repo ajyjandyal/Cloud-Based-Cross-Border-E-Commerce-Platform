@@ -1,75 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GlobalStore - Cloud E-Commerce</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GlobalStore - Home</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <header>
-    <h1>🌎 GlobalStore</h1>
-    <p>Cloud-Based Cross-Border E-Commerce Platform</p>
-    
-    <div id="controls">
-      <button id="darkToggle">🌙 Dark Mode</button>
-      
-      <div id="auth-buttons">
-        <a href="admin.html" target="_blank">
-          <button id="adminBtn" style="display:none;">🛠 Admin Panel</button>
-        </a>
-        
-        <button id="loginBtn">Login</button>
-        <button id="logoutBtn" style="display:none;">Logout</button>
-      </div>
+  <header class="site-header">
+    <div class="brand">
+      <a href="index.html">🌎 GlobalStore</a>
+      <span class="tag">Cross-Border E-Commerce (INR)</span>
+    </div>
+    <div class="header-actions">
+      <button id="darkToggle" class="btn small">🌙</button>
+      <a href="cart.html" class="btn small">Cart (<span id="cart-count">0</span>)</a>
+      <a id="acctLink" href="login.html" class="btn small">Account</a>
     </div>
   </header>
 
-  <div class="currency-selector">
-    <label for="currency">Base Currency: </label>
-    <select id="currency">
-      <option value="USD">USD</option>
-      <option value="EUR">EUR</option>
-      <option value="GBP">GBP</option>
-    </select>
-  </div>
+  <main class="container">
+    <section class="hero">
+      <h1>Shop International Brands — Prices shown in INR</h1>
+      <p>Prototype demo: live currency conversion, add-to-cart, and simulated checkout.</p>
+    </section>
 
-  <section class="products">
-    
-    <div class="product">
-      <img src="https://i.imgur.com/gTjKwLg.png" alt="Nike Air Max" />
-      <h2>Nike Air Max 2025</h2>
-      <p class="usd" data-usd="120">Price (USD): $120</p>
-      <p class="inr">Price (INR): ₹--</p>
-      <button onclick="convert(this)">Convert to INR</button>
-      <button onclick="buyNow('Nike Air Max 2025')">Buy Now</button>
-    </div>
+    <section class="controls">
+      <label>Currency base:
+        <select id="currency" title="Base currency for conversion">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+        </select>
+      </label>
+    </section>
 
-    <div class="product">
-      <img src="https://i.imgur.com/gKHY50A.png" alt="Essentials Hoodie" />
-      <h2>Essentials Hoodie</h2>
-      <p class="usd" data-usd="55">Price (USD): $55</p>
-      <p class="inr">Price (INR): ₹--</p>
-      <button onclick="convert(this)">Convert to INR</button>
-      <button onclick="buyNow('Essentials Hoodie')">Buy Now</button>
-    </div>
+    <section id="products" class="products-grid">
+      <!-- JS injects product cards -->
+    </section>
+  </main>
 
-    <div class="product">
-      <img src="https://i.imgur.com/QyqH8qI.png" alt="Samsung Case" />
-      <h2>Samsung Case</h2>
-      <p class="usd" data-usd="10">Price (USD): $10</p>
-      <p class="inr">Price (INR): ₹--</p>
-      <button onclick="convert(this)">Convert to INR</button>
-      <button onclick="buyNow('Samsung Case')">Buy Now</button>
-    </div>
-
-  </section>
-
-  <footer>
-    <p>Developed by Ajay Jandyal | Hosted on GitHub Cloud</p>
+  <footer class="site-footer">
+    <p>Developed by Ajay & Priyanshu • Hosted on GitHub Pages • <a href="admin.html">Admin</a></p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
