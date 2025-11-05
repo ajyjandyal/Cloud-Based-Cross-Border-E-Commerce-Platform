@@ -1,134 +1,116 @@
-// ===================================
-// 🌍 GLOABALSTORE - CART.JS
-// (Logic for cart.html)
-// ===================================
+// cart.js - render cart page and handle checkout (fixed)
 
 let cart = [];
-let exchangeRate = 83.25; // Default fallback
+let exchangeRate = 83.25;
 
-// --- Render Cart Items ---
-async function renderCart() {
-  cart = JSON.parse(localStorage.getItem("cart")) || [];
-  
-  const cartContainer = document.getElementById("cart-items-container");
-  const summaryContainer = document.getElementById("cart-summary-container");
+async function renderCart(){
+  cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  const cartContainer = document.getElementById('cart-items-container');
+  const summaryContainer = document.getElementById('cart-summary-container');
+  if(!cartContainer) return;
 
-  if (!cartContainer) return; // Exit if not on cart page
-
-  if (cart.length === 0) {
+  if(cart.length === 0){
     cartContainer.innerHTML = '<p id="empty-cart-msg">Your cart is empty. <a href="index.html">Go shopping!</a></p>';
-    summaryContainer.style.display = "none";
+    if (summaryContainer) summaryContainer.style.display = 'none';
+    if (typeof updateCartCount === 'function') updateCartCount();
     return;
   }
 
-  // Fetch rate to show correct INR
-  try {
-    const res = await fetch(`https://api.exchangerate.host/latest?base=USD&symbols=INR`);
+  // get exchange rate
+  try{
+    const res = await fetch('https://api.exchangerate.host/latest?base=USD&symbols=INR');
     const data = await res.json();
-    exchangeRate = data.rates.INR || 83.25;
-  } catch (e) {
-    console.error("Failed to fetch exchange rate", e);
-  }
+    exchangeRate = data.rates?.INR || 83.25;
+  }catch(e){ console.error(e); }
 
-  cartContainer.innerHTML = ""; // Clear
-  summaryContainer.style.display = "block";
+  cartContainer.innerHTML = '';
+  if (summaryContainer) summaryContainer.style.display = 'block';
   let subtotalUSD = 0;
 
   cart.forEach(item => {
-    subtotalUSD += item.price * item.quantity;
-    const itemEl = document.createElement("div");
-    itemEl.className = "cart-item";
+    subtotalUSD += item.price * item.qty;
+    const itemEl = document.createElement('div');
+    itemEl.className = 'cart-item';
     itemEl.innerHTML = `
       <img src="${item.image}" alt="${item.name}" onerror="this.src='https://placehold.co/100x100/e0e0e0/777?text=Image+Missing'">
-      <div class="cart-item-info">
+      <div style="flex:1; margin-left:12px;">
         <h3>${item.name}</h3>
         <p>$${item.price.toFixed(2)}</p>
         <div class="cart-item-controls">
-          <input type="number" class="cart-item-qty" min="1" value="${item.quantity}" data-id="${item.id}">
-          <button class="btn small danger" onclick="removeFromCart(${item.id})">Remove</button>
+          <label>Qty: <input type="number" class="cart-item-qty" min="1" value="${item.qty}" data-id="${item.id}" style="width:60px"></label>
+          <button class="btn small" onclick="removeFromCart('${item.id}')">Remove</button>
         </div>
       </div>
     `;
     cartContainer.appendChild(itemEl);
   });
-  
-  // Add event listeners to quantity inputs
-  document.querySelectorAll('.cart-item-qty').forEach(input => {
-    input.addEventListener('change', (e) => {
-      updateQuantity(parseInt(e.target.dataset.id), e.target.value);
+
+  document.querySelectorAll('.cart-item-qty').forEach(input=>{
+    input.addEventListener('change', (e)=>{
+      const id = e.target.dataset.id;
+      const v = parseInt(e.target.value) || 1;
+      updateQuantity(id, v);
     });
   });
 
-  // Update summary
   const subtotalINR = (subtotalUSD * exchangeRate).toFixed(2);
-  document.getElementById("subtotal-usd").innerText = `$${subtotalUSD.toFixed(2)}`;
-  document.getElementById("subtotal-inr").innerText = `₹${subtotalINR}`;
-  document.getElementById("total-usd").innerText = `$${subtotalUSD.toFixed(2)}`;
+  if(document.getElementById('subtotal-usd')) document.getElementById('subtotal-usd').innerText = `$${subtotalUSD.toFixed(2)}`;
+  if(document.getElementById('subtotal-inr')) document.getElementById('subtotal-inr').innerText = `₹${subtotalINR}`;
+  if(document.getElementById('total-usd')) document.getElementById('total-usd').innerText = `$${subtotalUSD.toFixed(2)}`;
+  if (typeof updateCartCount === 'function') updateCartCount();
 }
 
-// --- Update Cart Quantity ---
-function updateQuantity(productId, newQuantity) {
-  newQuantity = parseInt(newQuantity);
-  if (newQuantity < 1) newQuantity = 1;
-
-  cart = cart.map(item => {
-    if (item.id === productId) {
-      item.quantity = newQuantity;
-    }
-    return item;
-  });
-  
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderCart(); // Re-render cart
-  window.dispatchEvent(new Event("storage")); // Update header
-}
-
-// --- Remove From Cart ---
-function removeFromCart(productId) {
-  if (!confirm("Are you sure you want to remove this item?")) return;
-
-  cart = cart.filter(item => item.id !== productId);
-  
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderCart(); // Re-render cart
-  window.dispatchEvent(new Event("storage")); // Update header
-}
-
-// --- === UPDATED CHECKOUT FUNCTION (SIMULATION) === ---
-function handleCheckout(event) {
-  event.preventDefault(); // Stop the form from submitting
-
-  if (cart.length === 0) {
-    alert("Your cart is empty.");
-    return;
-  }
-  
-  // 1. Basic validation (Email only)
-  const email = document.getElementById("email").value;
-  if (!email || !email.includes("@")) {
-    alert("Please fill out your email address to proceed.");
-    return;
-  }
-  
-  // 2. Get totals
-  const totalUSD = document.getElementById("total-usd").innerText.replace('$', '');
-  const totalINR = document.getElementById("subtotal-inr").innerText.replace('₹', '');
-
-  // 3. Save totals to localStorage for the payment page to read
-  localStorage.setItem("checkoutTotalUSD", totalUSD);
-  localStorage.setItem("checkoutTotalINR", totalINR);
-
-  // 4. Redirect to the fake payment page
-  window.location.href = "payment.html";
-}
-
-// --- Initial Load ---
-document.addEventListener("DOMContentLoaded", () => {
+function updateQuantity(productId, newQuantity){
+  cart = cart.map(i => i.id === productId ? {...i, qty: newQuantity} : i);
+  localStorage.setItem('cart', JSON.stringify(cart));
   renderCart();
-  
-  // Attach listener to the form's submit event
-  const checkoutForm = document.getElementById("checkout-form");
-  if (checkoutForm) {
-    checkoutForm.addEventListener("submit", handleCheckout);
+  window.dispatchEvent(new Event('storage'));
+}
+
+function removeFromCart(productId){
+  if(!confirm('Remove this item?')) return;
+  cart = cart.filter(i => i.id !== productId);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+  window.dispatchEvent(new Event('storage'));
+}
+
+function handleCheckout(event){
+  event.preventDefault();
+  cart = JSON.parse(localStorage.getItem('cart')||'[]');
+  if(cart.length === 0){ alert('Your cart is empty.'); return; }
+
+  const details = {
+    email: document.getElementById('email').value,
+    name: document.getElementById('name').value,
+    address: document.getElementById('address').value,
+    city: document.getElementById('city').value,
+    zip: document.getElementById('zip').value,
+    paymentMode: document.getElementById('payment-mode').value
+  };
+
+  for(const [k,v] of Object.entries(details)){ if(!v){ alert(`Please fill ${k}`); return; } }
+
+  const usdTotal = cart.reduce((s,i)=>s + i.price * i.qty, 0);
+  const inrTotal = (usdTotal * exchangeRate).toFixed(0);
+
+  // For Cash On Delivery:
+  if(details.paymentMode === 'cod'){
+    const orderId = 'ORD_' + Math.random().toString(36).slice(2,9).toUpperCase();
+    alert(`Order placed (COD)\nOrder ID: ${orderId}\nAmount: ₹${inrTotal}\nConfirmation sent to ${details.email} (simulated).`);
+    localStorage.removeItem('cart');
+    window.location = 'index.html';
+    return;
   }
+
+  // Otherwise redirect to payment page with totals (or use JS to create an order)
+  localStorage.setItem('checkoutTotalUSD', usdTotal.toFixed(2));
+  localStorage.setItem('checkoutTotalINR', inrTotal);
+  window.location = 'payment.html';
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderCart();
+  const form = document.getElementById('checkout-form');
+  if(form) form.addEventListener('submit', handleCheckout);
 });
