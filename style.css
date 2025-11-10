@@ -1,51 +1,49 @@
 /* ================================
   🌍 GlobalStore - Professional Theme
   v3.0 - Major Visual Overhaul
-  ================================ */
-
-/* ---------- CSS Variables ---------- */
-:root {
-  --bg: #f8fafc;
-  --surface: #ffffff;
-  --text: #0f172a;
-  --text-light: #475569;
-  --primary: #2563eb;
-  --primary-hover: #1e40af;
-  --border: #e2e8f0;
-  --radius: 10px;
-  --shadow: 0 4px 12px rgba(0,0,0,0.05); /* --- v3.0: Subtler default shadow --- */
-  --shadow-hover: 0 10px 25px rgba(0,0,0,0.1); /* --- v3.0: New hover shadow --- */
-  --transition: all 0.3s ease;
-
-  /* --- New Variables --- */
-  --surface-alpha: rgba(255, 255, 255, 0.8);
-  --header-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-/* Dark mode overrides */
-body.dark {
-  --bg: #0f172a;
-  --surface: #1e293b;
-  --text: #f1f5f9;
-  --text-light: #94a3b8;
-  --border: #334155;
-  --shadow: 0 4px 12px rgba(0,0,0,0.3);
-  --shadow-hover: 0 10px 25px rgba(0,0,0,0.4);
-
-  /* --- New Dark Variables --- */
-  --surface-alpha: rgba(30, 41, 59, 0.8);
-  --header-shadow: 0 2px 8px rgba(0,0,0,0.4);
-}
-
-/* ---------- Keyframe Animations ---------- */
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+... existing code ... */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- v4.0: New "Crazy" Animations --- */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Shimmer effect for buttons */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Animated gradient background pan */
+@keyframes backgroundPan {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Tada/pop animation for icons */
+@keyframes tada {
+  0% {transform: scale(1);}
+  10%, 20% {transform: scale(0.9) rotate(-3deg);}
+  30%, 50%, 70%, 90% {transform: scale(1.1) rotate(3deg);}
+  40%, 60%, 80% {transform: scale(1.1) rotate(-3deg);}
+  100% {transform: scale(1) rotate(0);}
+}
+
+/* Section title underline animation */
+@keyframes expandWidth {
+  from { width: 0; }
+  to { width: 60px; }
 }
 
 /* --- v3.0: Renamed for clarity --- */
@@ -207,14 +205,28 @@ a:hover {
   font-size: 0.8rem;
 }
 .btn.primary {
-  background: var(--primary);
+  /* background: var(--primary); */ /* --- v4.0: Replaced --- */
   color: white;
   border: none;
+  /* --- v4.0: Animated Gradient --- */
+  background: linear-gradient(90deg, var(--primary), #1d4ed8, var(--primary));
+  background-size: 200% 200%;
+  animation: backgroundPan 4s ease infinite;
 }
 .btn.primary:hover {
-  background: var(--primary-hover);
+  /* background: var(--primary-hover); */ /* --- v4.0: Replaced --- */
   /* --- v3.0: Removed distracting pulse on hover --- */
   /* animation: pulse 1.5s infinite ease-in-out; */
+  
+  /* --- v4.0: Crazy Shimmer on Hover --- */
+  animation: shimmer 1s infinite;
+  background-image: linear-gradient(
+    -60deg,
+    var(--primary-hover) 0%,
+    #60a5fa 50%,
+    var(--primary-hover) 100%
+  );
+  background-size: 200% auto;
 }
 
 /* --- v3.0: Outline Button --- */
@@ -245,6 +257,8 @@ a:hover {
 .btn.icon:hover {
   background: var(--primary);
   color: #fff; /* This will color the SVG */
+  /* --- v4.0: Crazy Animation --- */
+  animation: tada 1s ease;
 }
 
 /* ---------- Main Container ---------- */
@@ -267,10 +281,13 @@ a:hover {
 .section-title::after {
   content: '';
   display: block;
-  width: 60px;
+  /* width: 60px; */ /* --- v4.0: Replaced --- */
   height: 3px;
   background: var(--primary);
   margin: 0.5rem auto 0;
+  /* --- v4.0: Crazy Animation --- */
+  animation: expandWidth 0.7s ease-out forwards;
+  animation-delay: 0.7s; /* Wait for title to fade up */
 }
 
 /* ---------- Products Grid ---------- */
@@ -278,6 +295,8 @@ a:hover {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
+  /* --- v4.0: Enable 3D perspective --- */
+  perspective: 1500px;
 }
 
 .card {
@@ -290,7 +309,8 @@ a:hover {
   position: relative;
   /* --- v3.0: Switched to left align --- */
   text-align: left;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; */ /* --- v4.0: Replaced --- */
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, border-color 0.4s ease;
   
   /* Staggered Load-in Animation */
   opacity: 0;
@@ -308,9 +328,11 @@ a:hover {
 .card:nth-child(8) { animation-delay: 0.8s; }
 
 .card:hover {
-  transform: translateY(-8px);
+  /* transform: translateY(-8px); */ /* --- v4.0: Replaced --- */
   box-shadow: var(--shadow-hover);
   border-color: var(--primary); /* --- v3.0: Add border highlight --- */
+  /* --- v4.0: Crazy 3D Tilt --- */
+  transform: perspective(1000px) rotateY(-5deg) rotateX(5deg) scale(1.05);
 }
 
 .card-image-container {
@@ -328,7 +350,9 @@ a:hover {
   background: #fff; /* --- v3.0: Ensure clean bg for transparent images --- */
 }
 .card:hover img {
-  transform: scale(1.08);
+  transform: scale(1.12); /* --- v4.0: More aggressive zoom --- */
+  /* --- v4.0: Add pop --- */
+  filter: brightness(1.05);
 }
 
 /* --- v3.0: Wrapper for text content --- */
@@ -434,13 +458,15 @@ a:hover {
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   padding: 2.5rem;
-  animation: fadeUp 0.8s ease;
+  /* animation: fadeUp 0.8s ease; */ /* --- v4.0: Replaced by child animations --- */
 }
 
 .product-image-gallery {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  /* --- v4.0: Crazy Animation --- */
+  animation: slideInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .product-detail img.main-image {
@@ -480,6 +506,12 @@ a:hover {
   transform: scale(1.05);
 }
 /* --- End v3.0 Thumbnails --- */
+
+/* --- v4.0: New rule to animate product info column --- */
+.product-info {
+  /* --- v4.0: Crazy Animation --- */
+  animation: slideInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
 
 .product-info h1 {
   font-size: 2.2rem;
