@@ -1,1 +1,701 @@
-a
+/* ================================
+  🌍 GlobalStore - Professional Theme
+  v3.0 - Major Visual Overhaul
+... existing code ... */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- v4.0: New "Crazy" Animations --- */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Shimmer effect for buttons */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Animated gradient background pan */
+@keyframes backgroundPan {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Tada/pop animation for icons */
+@keyframes tada {
+  0% {transform: scale(1);}
+  10%, 20% {transform: scale(0.9) rotate(-3deg);}
+  30%, 50%, 70%, 90% {transform: scale(1.1) rotate(3deg);}
+  40%, 60%, 80% {transform: scale(1.1) rotate(-3deg);}
+  100% {transform: scale(1) rotate(0);}
+}
+
+/* Section title underline animation */
+@keyframes expandWidth {
+  from { width: 0; }
+  to { width: 60px; }
+}
+
+/* --- v3.0: Renamed for clarity --- */
+@keyframes cardItemFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Global Styles ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary);
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: var(--surface-alpha);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: var(--header-shadow);
+  animation: fadeDown 0.6s ease;
+}
+
+.brand a {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  transition: color 0.3s ease;
+  margin-right: 2rem; /* --- v3.0: Add spacing --- */
+}
+.brand a:hover {
+  color: var(--primary);
+}
+
+/* --- v3.0: Site Navigation --- */
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
+  margin: 0 auto; /* --- v3.0: Center nav --- */
+}
+.nav-link {
+  color: var(--text-light);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: var(--transition);
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+.nav-link:hover {
+  color: var(--text);
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+/* --- End v3.0 Nav --- */
+
+.tag {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-left: 0.5rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.search-bar {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  width: 180px;
+  transition: width 0.3s ease, box-shadow 0.3s ease;
+}
+.search-bar:focus {
+  outline: none;
+  width: 240px;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500; 
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(37,99,235,0.3);
+}
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(37,99,235,0.2);
+}
+.btn.small {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+}
+.btn.primary {
+  /* background: var(--primary); */ /* --- v4.0: Replaced --- */
+  color: white;
+  border: none;
+  /* --- v4.0: Animated Gradient --- */
+  background: linear-gradient(90deg, var(--primary), #1d4ed8, var(--primary));
+  background-size: 200% 200%;
+  animation: backgroundPan 4s ease infinite;
+}
+.btn.primary:hover {
+  /* background: var(--primary-hover); */ /* --- v4.0: Replaced --- */
+  /* --- v3.0: Removed distracting pulse on hover --- */
+  /* animation: pulse 1.5s infinite ease-in-out; */
+  
+  /* --- v4.0: Crazy Shimmer on Hover --- */
+  animation: shimmer 1s infinite;
+  background-image: linear-gradient(
+    -60deg,
+    var(--primary-hover) 0%,
+    #60a5fa 50%,
+    var(--primary-hover) 100%
+  );
+  background-size: 200% auto;
+}
+
+/* --- v3.0: Outline Button --- */
+.btn.outline {
+  background: transparent;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.btn.outline:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* --- v3.0: Icon Button (for cart/profile) --- */
+.btn.icon {
+  width: 40px; /* Fixed size */
+  height: 40px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Circular */
+}
+.btn.icon svg {
+  width: 20px;
+  height: 20px;
+}
+.btn.icon:hover {
+  background: var(--primary);
+  color: #fff; /* This will color the SVG */
+  /* --- v4.0: Crazy Animation --- */
+  animation: tada 1s ease;
+}
+
+/* ---------- Main Container ---------- */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  flex-grow: 1; /* Pushes footer down */
+}
+
+/* --- v3.0: Section Title --- */
+.section-title {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  animation: fadeUp 0.6s ease;
+}
+.section-title::after {
+  content: '';
+  display: block;
+  /* width: 60px; */ /* --- v4.0: Replaced --- */
+  height: 3px;
+  background: var(--primary);
+  margin: 0.5rem auto 0;
+  /* --- v4.0: Crazy Animation --- */
+  animation: expandWidth 0.7s ease-out forwards;
+  animation-delay: 0.7s; /* Wait for title to fade up */
+}
+
+/* ---------- Products Grid ---------- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  /* --- v4.0: Enable 3D perspective --- */
+  perspective: 1500px;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  /* --- v3.0: Changed for hover actions --- */
+  overflow: hidden; 
+  position: relative;
+  /* --- v3.0: Switched to left align --- */
+  text-align: left;
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; */ /* --- v4.0: Replaced --- */
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, border-color 0.4s ease;
+  
+  /* Staggered Load-in Animation */
+  opacity: 0;
+  animation: cardItemFadeUp 0.6s ease forwards;
+}
+
+/* Staggered delay for grid items */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
+.card:nth-child(7) { animation-delay: 0.7s; }
+.card:nth-child(8) { animation-delay: 0.8s; }
+
+.card:hover {
+  /* transform: translateY(-8px); */ /* --- v4.0: Replaced --- */
+  box-shadow: var(--shadow-hover);
+  border-color: var(--primary); /* --- v3.0: Add border highlight --- */
+  /* --- v4.0: Crazy 3D Tilt --- */
+  transform: perspective(1000px) rotateY(-5deg) rotateX(5deg) scale(1.05);
+}
+
+.card-image-container {
+  overflow: hidden;
+  border-radius: 0; /* --- v3.0: No radius needed --- */
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--border); /* --- v3.0: Separate image --- */
+}
+
+.card img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+  background: #fff; /* --- v3.0: Ensure clean bg for transparent images --- */
+}
+.card:hover img {
+  transform: scale(1.12); /* --- v4.0: More aggressive zoom --- */
+  /* --- v4.0: Add pop --- */
+  filter: brightness(1.05);
+}
+
+/* --- v3.0: Wrapper for text content --- */
+.card-content {
+  padding: 1rem;
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0; /* --- v3.0: Adjusted margin --- */
+  color: var(--text);
+  transition: color 0.3s ease;
+  /* --- v3.0: Truncate long titles --- */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card:hover h3 {
+  color: var(--primary);
+}
+
+/* --- v3.0: Price --- */
+.card-price {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.card-price .old-price {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  text-decoration: line-through;
+  margin-left: 0.5rem;
+}
+
+.card p {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin: 0.2rem 0;
+  /* --- v3.0: Truncate description --- */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  min-height: 36px; /* 2 lines */
+}
+
+/* --- v3.0: BIG CHANGE - Hover Actions --- */
+.product-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem;
+  
+  /* Style */
+  background: var(--surface-alpha);
+  backdrop-filter: blur(5px);
+  border-top: 1px solid var(--border);
+  
+  /* Animation */
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.card:hover .product-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* --- End v3.0 Card Change --- */
+
+
+/* ---------- Product Page ---------- */
+/* --- v3.0: Breadcrumbs --- */
+.breadcrumbs {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.7s ease;
+}
+.breadcrumbs a {
+  color: var(--text-light);
+  transition: var(--transition);
+}
+.breadcrumbs a:hover {
+  color: var(--primary);
+}
+.breadcrumbs span {
+  margin: 0 0.5rem;
+}
+/* --- End v3.0 Breadcrumbs --- */
+
+.product-detail {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr; /* Image | Info */
+  gap: 2.5rem;
+  align-items: flex-start;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 2.5rem;
+  /* animation: fadeUp 0.8s ease; */ /* --- v4.0: Replaced by child animations --- */
+}
+
+.product-image-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* --- v4.0: Crazy Animation --- */
+  animation: slideInLeft 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.product-detail img.main-image {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+.product-detail img.main-image:hover {
+  transform: scale(1.03);
+}
+
+/* --- v3.0: Thumbnail Gallery --- */
+.thumbnail-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.thumbnail {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 2px;
+  background: #fff;
+}
+.thumbnail:hover, 
+.thumbnail.active {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+  transform: scale(1.05);
+}
+/* --- End v3.0 Thumbnails --- */
+
+/* --- v4.0: New rule to animate product info column --- */
+.product-info {
+  /* --- v4.0: Crazy Animation --- */
+  animation: slideInRight 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.product-info h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+.product-info .price {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+.product-info .description {
+  font-size: 1rem;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* --- v3.0: Quantity Selector --- */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.quantity-selector button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.quantity-selector button:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+.quantity-selector input {
+  width: 50px;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.3rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+/* --- End v3.0 Quantity --- */
+
+.product-info .actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+.product-info .actions .btn {
+  /* --- v3.0: Make buttons larger on product page --- */
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* ---------- Footer (New v3.0) ---------- */
+.site-footer {
+  background: var(--surface);
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  margin-top: 3rem; /* Space above footer */
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-column h4 {
+  color: var(--text);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-column li {
+  margin-bottom: 0.5rem;
+}
+.footer-column a {
+  color: var(--text-light);
+  transition: var(--transition);
+}
+.footer-column a:hover {
+  color: var(--primary);
+  padding-left: 4px;
+}
+
+.footer-newsletter p {
+  margin-bottom: 1rem;
+}
+.newsletter-form {
+  display: flex;
+}
+.newsletter-form input {
+  flex-grow: 1;
+  border: 1px solid var(--border);
+  padding: 0.6rem;
+  border-radius: var(--radius) 0 0 var(--radius);
+  background: var(--bg);
+  color: var(--text);
+}
+.newsletter-form button {
+  border-radius: 0 var(--radius) var(--radius) 0;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  padding: 0 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.newsletter-form button:hover {
+  background: var(--primary-hover);
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+/* ---------- Responsive Styles ---------- */
+@media (max-width: 900px) {
+  /* --- v3.0: Stack nav in menu --- */
+  .site-nav {
+    display: none; /* Would be shown with JS on a hamburger click */
+  }
+}
+
+@media (max-width: 768px) {
+  .product-detail {
+    grid-template-columns: 1fr; /* Stack image and info */
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  .product-info h1 {
+    font-size: 1.8rem;
+  }
+  .product-info .price {
+    font-size: 1.5rem;
+  }
+  
+  .product-info .actions {
+    flex-direction: column; /* Stack buttons */
+  }
+  .product-info .actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr 1fr; /* 2 columns on tablet */
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding: 1rem;
+  }
+  .brand a {
+    font-size: 1.3rem;
+  }
+  .search-bar {
+    display: none; /* Hide search on small mobile */
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr; /* 1 column on mobile */
+  }
+}
